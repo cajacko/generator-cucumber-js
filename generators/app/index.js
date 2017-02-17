@@ -1,64 +1,44 @@
-var Generator = require('yeoman-generator');
+const Generator = require('yeoman-generator');
+const npmAddScript = require('npm-add-script');
 
 module.exports = class extends Generator {
-  // The name `constructor` is important here
-  constructor(args, opts) {
-    // Calling the super constructor is important so our generator is correctly set up
-    super(args, opts);
-
-    // Next, add your custom code
-    this.option('babel'); // This method adds support for a `--babel` flag
-
-    // this.config.save(); // Creates .yo-rc.json
-  }
-
-  // Promptins is a method keyname that puts this function into the special queue
-  // prompting() {
-  //   return this.prompt([{
-  //     type    : 'input',
-  //     name    : 'name',
-  //     message : 'Your project name',
-  //     default : this.appname, // Default to current folder name
-  //     store   : true // Store will make the default value be the last value a user entered when they ran this generator last
-  //   }, {
-  //     type    : 'confirm',
-  //     name    : 'cool',
-  //     message : 'Would you like to enable the Cool feature?'
-  //   }]).then((answers) => {
-  //     this.log('app name', answers.name);
-  //     this.log('cool feature', answers.cool);
-  //   });
-  // }
-
-  method1() {
-    this.log('method 1 just ran');
-  }
-
-  method2() {
-    this.log('method 2 just ran');
-  }
-
-  _private_method() {
-    console.log('private hey');
-  }
-
-  _asyncTask() {
-    var done = this.async();
-
-    getUserEmail(function (err, name) {
-      done(err);
-    });
-  }
-
   writing() {
     this.fs.copyTpl(
-      this.templatePath('**/*.js'),
-      this.destinationPath('public/'),
+      this.templatePath('features/**/*'),
+      this.destinationPath('features'),
       { title: 'Templating with Yeoman' }
     );
   }
 
-  // end() {
-  //   this.npmInstall()
-  // }
+  installDependencies() {
+    this.npmInstall(['chai'], { 'save-dev': true });
+    this.npmInstall(['chromedriver'], { 'save-dev': true });
+    this.npmInstall(['cucumber@1.3.1'], { 'save-dev': true });
+    this.npmInstall(['dotenv'], { 'save-dev': true });
+    this.npmInstall(['phantomjs-prebuilt'], { 'save-dev': true });
+    this.npmInstall(['selenium-webdriver'], { 'save-dev': true });
+  }
+
+  addLintScript() {
+    const packageJsonPath = this.destinationPath('package.json');
+    let packageJson;
+
+    try {
+      packageJson = this.fs.readJSON(packageJsonPath);
+    } catch (e) {
+      this.log('No package.json file, creating one');
+      this.spawnCommandSync('npm', ['init']);
+      packageJson = this.fs.readJSON(packageJsonPath);
+    }
+
+    if (!packageJson.scripts || !packageJson.scripts.cucumber) {
+      npmAddScript({ key: 'cucumber', value: 'cucumber-js' });
+    }
+
+    if (!packageJson.scripts || !packageJson.scripts.test) {
+      npmAddScript({ key: 'test', value: 'cucumber-js' });
+    }
+
+    return true;
+  }
 };
