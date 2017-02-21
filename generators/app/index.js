@@ -21,15 +21,7 @@ module.exports = class extends Generator {
 
   addLintScript() {
     const packageJsonPath = this.destinationPath('package.json');
-    let packageJson;
-
-    try {
-      packageJson = this.fs.readJSON(packageJsonPath);
-    } catch (e) {
-      this.log('No package.json file, creating one');
-      this.spawnCommandSync('npm', ['init']);
-      packageJson = this.fs.readJSON(packageJsonPath);
-    }
+    const packageJson = this.fs.readJSON(packageJsonPath);
 
     if (!packageJson.scripts || !packageJson.scripts.cucumber) {
       npmAddScript({ key: 'cucumber', value: 'cucumber-js' });
