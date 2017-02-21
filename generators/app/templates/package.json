@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node ./features-test-site/server.js",
     "test": "cucumber-js"
   },
   "author": "",
@@ -16,5 +17,12 @@
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.0.1"
   },
-  "testUrl": "https://charliejackson.com"
+  "testUrl": "https://charliejackson.com",
+  "dependencies": {
+    "connect": "3.6.0",
+    "serve-static": "1.11.2"
+  },
+  "config": {
+    "port": "3000"
+  }
 }

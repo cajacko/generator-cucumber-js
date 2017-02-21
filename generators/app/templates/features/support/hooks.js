@@ -40,7 +40,7 @@ module.exports = function () {
   //   closeAllButFirstTab(this.driver, callback)
   // })
 
-  this.registerHandler('AfterFeatures', function (features, callback) {
+  this.registerHandler('AfterFeatures', function (features, callback) {  
     var driver = require('./driver')()
 
     driver.quit().then(function() {
