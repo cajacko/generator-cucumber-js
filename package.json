@@ -1,6 +1,6 @@
 {
   "name": "generator-cucumber-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yeoman generator for setting up cucumber functional tests",
   "main": "index.js",
   "scripts": {
