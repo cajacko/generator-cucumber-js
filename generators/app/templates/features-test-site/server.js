@@ -19,9 +19,9 @@ connect().use(serveStatic(__dirname)).listen(process.env.npm_package_config_port
 
     ls.on('close', (code) => {
       if (code) {
-        // throw new Error('Cucumber test failed');
+        throw new Error('Cucumber test failed');
       }
 
-      // process.exit();
+      process.exit();
     });
 });
