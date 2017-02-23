@@ -23,6 +23,10 @@ module.exports = class extends Generator {
     const packageJsonPath = this.destinationPath('package.json');
     const packageJson = this.fs.readJSON(packageJsonPath);
 
+    if (!packageJson) {
+      return false;
+    }
+
     if (!packageJson.scripts || !packageJson.scripts.cucumber) {
       npmAddScript({ key: 'cucumber', value: 'cucumber-js' });
     }
