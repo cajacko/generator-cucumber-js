@@ -37,4 +37,11 @@ module.exports = class extends Generator {
 
     return true;
   }
+
+  readme() {
+    this.composeWith(require.resolve('generator-readme-cj/generators/app'), {
+      tag: 'generator-cucumber-js',
+      markdown: this.fs.read(this.templatePath('README.md'))
+    });
+  }
 };
